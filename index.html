@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ИнфоТех — Библиотека IT-знаний</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="loading-overlay" id="loadingScreen">
+    <div class="loader-wrap"><div class="loader"></div><span>ИнфоТех</span></div>
+  </div>
+
+  <header id="mainHeader">
+    <div class="container header-content">
+      <div class="logo" onclick="navigate('home')"><div class="logo-icon"><i class="fas fa-laptop-code"></i></div><h1>ИнфоТех</h1></div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></button>
+      <nav id="mainNav">
+        <ul>
+          <li><a href="#" onclick="navigate('home');return false" class="nav-link active" data-page="home">Главная</a></li>
+          <li><a href="#" onclick="navigate('lessons');return false" class="nav-link" data-page="lessons">Уроки</a></li>
+          <li><a href="#" onclick="goToSection('about');return false" class="nav-link">О нас</a></li>
+          <li><a href="#" onclick="goToSection('contact');return false" class="nav-link">Контакты</a></li>
+          <li><button id="authButton" class="auth-btn" onclick="handleAuthClick()"><i class="fas fa-user"></i> <span>Войти</span></button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="appContent">
+    <!-- HOME -->
+    <div id="homePage" class="page active">
+      <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container hero-inner">
+          <div class="hero-badge"><i class="fas fa-rocket"></i> Бесплатное обучение</div>
+          <h2 class="hero-title">Электронный учебник<br><span class="gradient-text">по информационным технологиям</span></h2>
+          <p class="hero-subtitle">Бесплатные материалы по программированию, веб-разработке, базам данных и другим IT-направлениям.</p>
+          <div class="hero-buttons">
+            <button class="btn-primary btn-lg" onclick="navigate('lessons')"><i class="fas fa-book-open"></i> Все уроки</button>
+            <button class="btn-glass btn-lg" onclick="goToSection('categories')"><i class="fas fa-th-large"></i> Категории</button>
+          </div>
+          <div class="hero-stats-row">
+            <div class="hero-stat"><i class="fas fa-book"></i><span id="heroLessons">0</span> уроков</div>
+            <div class="hero-stat"><i class="fas fa-users"></i><span id="heroUsers">0</span> учеников</div>
+            <div class="hero-stat"><i class="fas fa-sync"></i>Обновления</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container section" id="categories">
+        <div class="section-header"><h2 class="section-title">Категории знаний</h2><p class="section-subtitle">Выберите направление</p></div>
+        <div class="categories-grid" id="categoriesGrid"></div>
+      </section>
+
+      <section class="features-section" id="about">
+        <div class="container">
+          <div class="section-header"><h2 class="section-title">Почему выбирают нас</h2><p class="section-subtitle">Преимущества платформы</p></div>
+          <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-unlock-alt"></i></div><h3>Бесплатный доступ</h3><p>Все материалы полностью бесплатны для всех.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-user-graduate"></i></div><h3>Экспертные материалы</h3><p>Статьи от практикующих специалистов.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-sync-alt"></i></div><h3>Обновления</h3><p>База знаний постоянно пополняется.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><h3>Прогресс</h3><p>Прогресс в обучении.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container section" id="contact">
+        <div class="section-header"><h2 class="section-title">Контакты</h2><p class="section-subtitle">Свяжитесь с нами</p></div>
+        <div class="contact-grid">
+          <div class="contact-card"><div class="contact-icon"><i class="fas fa-envelope"></i></div><h4>Email</h4><p>alekseiratnikov
+            2216@gmail.com</p></div>
+          <div class="contact-card"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><h4>Адрес</h4><p>г. Саранск</p></div>
+          <div class="contact-card"><div class="contact-icon"><i class="fas fa-clock"></i></div><h4>Режим</h4><p>24/7</p></div>
+          <div class="contact-card"><div class="contact-icon"><i class="fas fa-headset"></i></div><h4>Поддержка</h4><p>alekseiratnikov
+            2216@gmail.com</p></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- LESSONS LIST -->
+    <div id="lessonsPage" class="page">
+      <div class="container section">
+        <button class="btn-back" onclick="navigate('home')"><i class="fas fa-arrow-left"></i> Главная</button>
+        <h1 class="page-title">Все уроки</h1>
+        <div class="filters-bar" id="filtersBar"></div>
+        <div class="search-bar"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Поиск уроков..." oninput="filterLessons()"></div>
+        <div class="lessons-grid" id="lessonsGrid"></div>
+        <div class="empty-state" id="emptyLessons" style="display:none"><i class="fas fa-search fa-3x"></i><h3>Уроки не найдены</h3></div>
+      </div>
+    </div>
+
+    <!-- LESSON VIEW -->
+    <div id="lessonViewPage" class="page">
+      <div class="lesson-view-header"><div class="container">
+        <button class="btn-back light" onclick="navigate('lessons')"><i class="fas fa-arrow-left"></i> К урокам</button>
+        <h1 id="lessonViewTitle"></h1>
+        <div class="lesson-view-meta" id="lessonViewMeta"></div>
+      </div></div>
+      <div class="container">
+        <div class="lesson-view-tools">
+          <button onclick="changeFontSize(1)"><i class="fas fa-plus"></i> A</button>
+          <button onclick="changeFontSize(-1)"><i class="fas fa-minus"></i> A</button>
+          <button onclick="toggleDark()" id="darkBtn"><i class="fas fa-moon"></i></button>
+        </div>
+        <article class="lesson-content" id="lessonViewContent"></article>
+      </div>
+    </div>
+  </main>
+
+  <footer id="mainFooter">
+    <div class="container footer-inner">
+      <div class="footer-logo" onclick="navigate('home')"><i class="fas fa-laptop-code"></i><h2>ИнфоТех</h2></div>
+      <p>Библиотека IT-знаний — открытый проект.</p>
+      <p class="copy">&copy; 2026 Электронный учебник по информационным технологиям. Все права защищены.</p>
+    </div>
+    <a href="admin.html" class="footer-admin-btn" title="Панель управления"><i class="fas fa-shield-alt"></i></a>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Вход</button>
+        <button class="auth-tab" onclick="switchTab('register')">Регистрация</button>
+      </div>
+      <div id="loginForm" class="auth-form active">
+        <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="email@example.com"></div>
+        <div class="form-group"><label>Пароль</label><input type="password" id="loginPassword" placeholder="Пароль"></div>
+        <div id="loginError" class="form-error"></div>
+        <button class="btn-primary full-w" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Войти</button>
+      </div>
+      <div id="registerForm" class="auth-form">
+        <div class="form-group"><label>Имя</label><input type="text" id="regName" placeholder="Ваше имя"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="email@example.com"></div>
+        <div class="form-group"><label>Пароль</label><input type="password" id="regPassword" placeholder="Мин. 6 символов"></div>
+        <div class="form-group"><label>Подтвердите</label><input type="password" id="regConfirm" placeholder="Ещё раз"></div>
+        <div id="regError" class="form-error"></div>
+        <div id="regSuccess" class="form-success"></div>
+        <button class="btn-primary full-w" onclick="doRegister()"><i class="fas fa-user-plus"></i> Зарегистрироваться</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Menu -->
+  <div id="userMenu" class="user-dropdown" style="display:none">
+    <div class="user-dropdown-info"><div class="user-dropdown-avatar"><i class="fas fa-user-circle"></i></div><div><strong id="ddName"></strong><small id="ddEmail"></small></div></div>
+    <div class="user-dropdown-divider"></div>
+    <a href="admin.html" id="ddAdmin" style="display:none"><i class="fas fa-cogs"></i> Админ-панель</a>
+    <a href="#" onclick="doLogout();return false"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+  </div>
+
+  <div id="toasts" class="toast-container"></div>
+  <script src="script.js"></script>
+</body>
+</html>

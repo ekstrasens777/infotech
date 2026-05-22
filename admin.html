@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ИнфоТех — Админ-панель</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <!-- Login -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-box">
+      <h1><i class="fas fa-shield-alt"></i> Админ-панель</h1>
+      <p>ИнфоТех — управление сайтом</p>
+      <div class="form-group"><label>Логин</label><input type="text" id="adminUser" value="admin"></div>
+      <div class="form-group"><label>Пароль</label><input type="password" id="adminPass" placeholder="Пароль"></div>
+      <div id="loginErr" class="err"></div>
+      <button class="btn-login" onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> Войти</button>
+      <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> На сайт</a>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPanel" style="display:none">
+    <div class="admin-sidebar" id="sidebar">
+      <div class="sidebar-header"><i class="fas fa-shield-alt"></i><h2>ИнфоТех</h2><button class="sidebar-close" onclick="toggleSidebar()"><i class="fas fa-times"></i></button></div>
+      <nav>
+        <button class="nav-btn active" data-s="dash" onclick="showSection('dash')"><i class="fas fa-tachometer-alt"></i><span>Дашборд</span></button>
+        <button class="nav-btn" data-s="lessons" onclick="showSection('lessons')"><i class="fas fa-book"></i><span>Уроки</span></button>
+        <button class="nav-btn" data-s="users" onclick="showSection('users')"><i class="fas fa-users"></i><span>Пользователи</span></button>
+      </nav>
+      <div class="sidebar-footer"><a href="/"><i class="fas fa-home"></i> На сайт</a><button onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выйти</button></div>
+    </div>
+
+    <div class="admin-main">
+      <div class="topbar">
+        <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <h2 id="pageTitle">Дашборд</h2>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="sDash" class="section active">
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="card"><h3><i class="fas fa-clock"></i> Последние пользователи</h3><div id="recentUsers"></div></div>
+      </div>
+
+      <!-- Lessons -->
+      <div id="sLessons" class="section">
+        <div class="section-top"><h3>Уроки</h3><button class="btn-add" onclick="showForm()"><i class="fas fa-plus"></i> Добавить</button></div>
+        <div id="lessonsList"></div>
+      </div>
+
+      <!-- Lesson Form -->
+      <div id="sForm" class="section" style="display:none">
+        <div class="section-top"><h3 id="formTitle">Новый урок</h3><button class="btn-ghost" onclick="hideForm()"><i class="fas fa-times"></i> Отмена</button></div>
+        <div class="admin-form">
+          <div class="row">
+            <div class="form-group"><label>Название *</label><input id="fTitle" type="text"></div>
+            <div class="form-group"><label>Категория *</label>
+              <select id="fCat"><option value="">Выберите</option><option value="programming">Программирование</option><option value="web">Веб-разработка</option><option value="database">Базы данных</option><option value="security">Кибербезопасность</option><option value="cloud">Облачные технологии</option><option value="mobile">Мобильная разработка</option></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group"><label>Длительность (мин)</label><input id="fDur" type="number" min="1" max="300"></div>
+            <div class="form-group"><label>Сложность</label>
+              <select id="fDiff"><option value="beginner">Начинающий</option><option value="intermediate">Средний</option><option value="advanced">Продвинутый</option></select>
+            </div>
+          </div>
+          <div class="form-group"><label>Описание</label><textarea id="fDesc" rows="3"></textarea></div>
+          <div class="form-group"><label>Содержимое (HTML) *</label><textarea id="fContent" rows="12" style="font-family:monospace;font-size:13px"></textarea></div>
+          <div class="form-group"><label>Теги</label><input id="fTags" type="text" placeholder="python, основы"></div>
+          <input type="hidden" id="fId">
+          <div class="form-actions"><button class="btn-ghost" onclick="hideForm()">Отмена</button><button class="btn-add" onclick="saveLesson()"><i class="fas fa-save"></i> Сохранить</button></div>
+        </div>
+      </div>
+
+      <!-- Users -->
+      <div id="sUsers" class="section">
+        <h3>Пользователи</h3>
+        <div id="usersList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts" class="toast-container"></div>
+  <script src="admin.js"></script>
+</body>
+</html>
