@@ -1,7 +1,7 @@
 {
   "name": "infotech-site",
   "version": "1.0.0",
-  "description": "ИнфоТех - Библиотека IT-знаний",
+  "description": "InfoTech образовательный сайт",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "sqlite3": "^5.1.6",
+    "pg": "^8.11.3",
     "body-parser": "^1.20.2"
   }
 }
